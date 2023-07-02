@@ -12,6 +12,14 @@ POST /login
         password: string
     }
 ```
+
+`response`
+```
+    {
+        token: string
+        user: dados do usuario
+    }
+```
 ##Cadastro
 
 POST /signup

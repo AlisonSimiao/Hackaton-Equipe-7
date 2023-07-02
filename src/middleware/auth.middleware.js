@@ -1,32 +1,33 @@
 const { Prisma } = require("@prisma/client")
 const jwt = require("jsonwebtoken")
+const { ErrorResponse } = require("../response/index.response")
+const UserRepository = require("../resourses/user/user.repository")
 
-module.exports = async function (req, res, next) {
+async function auth(req, res, next) {
     
-
+    const userRepository = new UserRepository()
+    console.log(req.headers.authorization);
     try{
         const {
             id
-        } = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET)
+        } = jwt.verify(req.headers.authorization?.split(' ')[1] || "", process.env.JWT_SECRET)
 
-        const user = await Prisma.User.findOne({
-            where: {
-                id
-            }
-        })
+        const user = await userRepository.findOne({id})
         
         req.usuario = user
 
         next()
     }
     catch(err){
-        if(err.name === "TokenExpiredError")
-            return res.status(403).json({
-                message: "Não autorizado"
-            })
+        console.error(err)
+        if(err.name === 'JsonWebTokenError')
+            return ErrorResponse({
+                message: 'Token expirado',
+                statusCode: 401
+            }, res)
 
-        res.status(500).json({
-                message: "Erro no servidor"
-            })
+        ErrorResponse(err, res)
     }
 }
+
+module.exports = auth

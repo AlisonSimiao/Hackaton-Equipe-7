@@ -11,18 +11,95 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  name     String
-  password String
-  adress   String
-  idGender Int
-  gender   Gender? @relation(fields: [idGender], references: [id])
-  age      Int
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  name       String
+  password   String
+  adress     String
+  idGender   Int
+  age        Int
+  gender     Gender?   @relation(fields: [idGender], references: [id])
+  Points     Points?   @relation(fields: [pointsId], references: [id])
+  pointsId   Int       @unique
+  Finances   Finances? @relation(fields: [financesId], references: [id])
+  financesId Int       @unique
 }
 
 model Gender {
   id   Int    @id @default(autoincrement())
   name String
   User User[]
+}
+
+model Points {
+  id    Int    @id @default(autoincrement())
+  value Int
+  User  User[]
+}
+
+model Finances {
+  id              Int              @id @default(autoincrement())
+  idExpenses      Int
+  idDebts         Int
+  idFinancialGoal Int
+  income          IncomeBracket[]
+  Debts           Debts[]
+  User            User[]
+  FinancialGoals  FinancialGoals[]
+  Expenses        Expenses[]
+}
+
+model IncomeBracket {
+  id          Int      @id @default(autoincrement())
+  finance     Finances @relation(fields: [financeId], references: [id])
+  financeId   Int
+  range_start Decimal
+  range_end   Decimal
+  description String
+}
+
+model FinancialGoals {
+  id         Int      @id @default(autoincrement())
+  value      Decimal
+  createdAt  DateTime
+  closedAt   DateTime
+  idCategory Int
+  finance    Finances @relation(fields: [financeId], references: [id])
+  financeId  Int
+}
+
+model Expenses {
+  id          Int      @id @default(autoincrement())
+  Value       Decimal
+  idFrequency Int
+  idCategory  Int
+  finance     Finances @relation(fields: [financeId], references: [id])
+  financeId   Int
+}
+
+model Frequency {
+  id        Int    @id @default(autoincrement())
+  value     String
+  idExpense Int
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  type String
+}
+
+model Debts {
+  id          Int      @id @default(autoincrement())
+  description String
+  Value       Decimal
+  dueDate     DateTime
+  status      Int
+  finance     Finances @relation(fields: [financeId], references: [id])
+  financeId   Int
+}
+
+model StatusDebts {
+  id        Int    @id @default(autoincrement())
+  descricao String
 }

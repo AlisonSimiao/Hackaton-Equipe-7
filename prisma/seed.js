@@ -13,7 +13,23 @@ async function main() {
   await prisma.gender.create({
     data: {name: 'outros'}
   })
+  await prisma.statusDebts.create({
+    data:{
+        value: 'pago'
+    }
+  })
 
+  await prisma.statusDebts.create({
+    data:{
+        value:  'em andamento'
+    }
+  })
+
+  await prisma.statusDebts.create({
+    data:{
+        value: 'em aberto'
+    }
+  })
 }
 main()
   .then(async () => {

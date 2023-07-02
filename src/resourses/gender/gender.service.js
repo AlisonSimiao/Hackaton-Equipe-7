@@ -12,7 +12,7 @@ class GenderService{
      * @returns 
      */
     async paginate(page){
-        const [rows, count] = await this.genderRepository.paginate({id: 1000}, page)
+        const [rows, count] = await this.genderRepository.paginate({}, page)
 
         if(!rows.length)
             throw new NotFoundError("Nenhum dado encontrado")
