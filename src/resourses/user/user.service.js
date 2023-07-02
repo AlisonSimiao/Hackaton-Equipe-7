@@ -2,10 +2,12 @@ const { ConflictError } = require("../../error");
 const { UserCreateDto } = require("./user.dto");
 const bcrypt   =require('bcryptjs');
 const UserRepository = require("./user.repository");
+const PointRepository = require("../point/point.repository");
 
 class UserService {
     constructor() {
         this.userRepository = new UserRepository()
+        this.pointsRepository = new PointRepository()
     }
 
     async findOne(id) {
@@ -19,13 +21,16 @@ class UserService {
             throw new ConflictError(`Usuario com email '${body.email}' já existe`);
 
         const newPassword = await this.encriptarSenha(body.password, "10");
+        const { id: idPoints} = await this.pointsRepository.create({value: body.points || 0})
+
         const userCreateDto = new UserCreateDto(
             body.email,
             body.name,
             newPassword,
             body.adress,
             body.idGender,
-            body.age
+            body.age,
+            idPoints
         )
 
         await this.userRepository.create(userCreateDto);
@@ -39,7 +44,8 @@ class UserService {
             user.name,
             user.password,
             user.adress,
-            user.idGender
+            user.idGender,
+            user.points
         )
 
     }
