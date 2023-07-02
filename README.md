@@ -27,3 +27,20 @@ POST /signup
 ```
 
 > idGender => 1 - masculino, 2 - feminino e 3 - outros
+
+GET /genders
+
+```
+    {
+	"total": number,
+	"genders": {
+        name: string
+        }[],
+	"page": number,
+	"limit": number
+}
+```
+> total = total de registros
+> genders = arrays com os nomes de cada genero
+> page = pagina atual `pode ser alterado enviando query com mesmo nome`
+> limit = numero maximo de registros por pagina `pode ser alterado enviando query com mesmo nome`
