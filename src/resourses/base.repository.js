@@ -28,8 +28,8 @@ class BaseRepository{
         return newModel;
     }
 
-    async update(id, data){
-        return await this.model.findByIdAndUpdate(id, data, {new: true});
+    async update(where, data){
+        return await this.model.update({where, data});
     }
 
     async delete(id){
