@@ -33,9 +33,7 @@ GET /genders
 ```
     {
 	"total": number,
-	"genders": {
-        name: string
-        }[],
+	"genders":  string[],
 	"page": number,
 	"limit": number
 }
