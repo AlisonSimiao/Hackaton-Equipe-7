@@ -6,7 +6,8 @@ class UserCreateDto {
         adress,
         idGender,
         age,
-        ponitsId
+        ponitsId,
+        financesId
     ) {
         this.email = email
         this.name = name
@@ -15,6 +16,8 @@ class UserCreateDto {
         this.gender = {connect: {id: idGender}}
         this.age = age
         this.Points = {connect: {id: ponitsId}}
+        this.Finances = {connect: {id: financesId}}
+        
     }
 }
 

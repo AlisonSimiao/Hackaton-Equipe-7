@@ -39,9 +39,9 @@ model Points {
 
 model Finances {
   id              Int              @id @default(autoincrement())
-  idExpenses      Int
-  idDebts         Int
-  idFinancialGoal Int
+  idExpenses      Int?
+  idDebts         Int?
+  idFinancialGoal Int?
   income          IncomeBracket[]
   Debts           Debts[]
   User            User[]
@@ -90,16 +90,18 @@ model Category {
 }
 
 model Debts {
-  id          Int      @id @default(autoincrement())
-  description String
-  Value       Decimal
-  dueDate     DateTime
-  status      Int
-  finance     Finances @relation(fields: [financeId], references: [id])
-  financeId   Int
+  id            Int          @id @default(autoincrement())
+  description   String
+  Value         Decimal
+  dueDate       DateTime
+  status        Int
+  finance       Finances     @relation(fields: [financeId], references: [id])
+  financeId     Int
+  StatusDebts   StatusDebts? @relation(fields: [status], references: [id])
 }
 
 model StatusDebts {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   descricao String
+  Debts     Debts[]
 }

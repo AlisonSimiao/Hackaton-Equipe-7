@@ -2,6 +2,7 @@ const { Prisma } = require("@prisma/client")
 const jwt = require("jsonwebtoken")
 const { ErrorResponse } = require("../response/index.response")
 const UserRepository = require("../resourses/user/user.repository")
+const { ForbidenError } = require("../error")
 
 async function auth(req, res, next) {
     
@@ -14,6 +15,10 @@ async function auth(req, res, next) {
 
         const user = await userRepository.findOne({id})
         
+        if(!user)
+            throw new ForbidenError("Não autorizado")
+
+        console.log(user);
         req.usuario = user
 
         next()

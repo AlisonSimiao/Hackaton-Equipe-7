@@ -37,6 +37,8 @@ POST /signup
 
 > idGender => 1 - masculino, 2 - feminino e 3 - outros
 
+
+## generos
 GET /genders
 
 ```
@@ -52,7 +54,7 @@ GET /genders
 > page = pagina atual `pode ser alterado enviando query com mesmo nome`
 > limit = numero maximo de registros por pagina `pode ser alterado enviando query com mesmo nome`
 
-## Points
+## Pontos
 
 GET /points
 ```
@@ -69,3 +71,13 @@ atualizado os pontos com o valor enviado
     value: number
 }
 ```
+
+Dividas
+
+GET /finances/:idFinance/Debts
+GET /finances/:idFinance/Debts/:idDebt
+POST /finances/:idFinance/Debts
+DELETE /finances/:idFinance/Debts/:idDebt
+PATCH /finances/:idFinance/Debts/:idDebt
+
+statusDividas

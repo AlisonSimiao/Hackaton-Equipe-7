@@ -6,6 +6,14 @@ class NotFoundError extends Error {
   }
 }
 
+class ForbidenError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ForbidenError';
+    this.statusCode = 403;
+  }
+}
+
 class ConflictError extends Error {
   constructor(message) {
     super(message);
@@ -17,5 +25,6 @@ class ConflictError extends Error {
 
 module.exports = {
     ConflictError,
-    NotFoundError
+    NotFoundError,
+    ForbidenError
 }

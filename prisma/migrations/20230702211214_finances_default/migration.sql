@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Finances" ALTER COLUMN "idExpenses" DROP NOT NULL,
+ALTER COLUMN "idDebts" DROP NOT NULL,
+ALTER COLUMN "idFinancialGoal" DROP NOT NULL;

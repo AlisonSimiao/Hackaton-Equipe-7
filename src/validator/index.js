@@ -22,4 +22,5 @@ module.exports = {
     Validate,
     UserValidator: require('./user.validator.js'),
     LoginValidator: require('./login.validator'),
+    DebtValidator: require('./debt.validator'),
 };

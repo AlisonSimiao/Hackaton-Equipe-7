@@ -3,11 +3,13 @@ const { UserCreateDto } = require("./user.dto");
 const bcrypt   =require('bcryptjs');
 const UserRepository = require("./user.repository");
 const PointRepository = require("../point/point.repository");
+const FinanceRepository = require("../finance/finance.repository");
 
 class UserService {
     constructor() {
         this.userRepository = new UserRepository()
         this.pointsRepository = new PointRepository()
+        this.financeRepository = new FinanceRepository()
     }
 
     async findOne(id) {
@@ -21,7 +23,8 @@ class UserService {
             throw new ConflictError(`Usuario com email '${body.email}' já existe`);
 
         const newPassword = await this.encriptarSenha(body.password, "10");
-        const { id: idPoints} = await this.pointsRepository.create({value: body.points || 0})
+        const { id: idPoints } = await this.pointsRepository.create({value: body.points || 0})
+        const {id: financesId } = await this.financeRepository.create({}) 
 
         const userCreateDto = new UserCreateDto(
             body.email,
@@ -30,7 +33,8 @@ class UserService {
             body.adress,
             body.idGender,
             body.age,
-            idPoints
+            idPoints,
+            financesId
         )
 
         await this.userRepository.create(userCreateDto);

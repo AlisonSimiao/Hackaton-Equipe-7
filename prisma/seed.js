@@ -15,19 +15,19 @@ async function main() {
   })
   await prisma.statusDebts.create({
     data:{
-        value: 'pago'
+        descricao: 'pago'
     }
   })
 
   await prisma.statusDebts.create({
     data:{
-        value:  'em andamento'
+        descricao:  'em andamento'
     }
   })
 
   await prisma.statusDebts.create({
     data:{
-        value: 'em aberto'
+        descricao: 'a vencer'
     }
   })
 }
