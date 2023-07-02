@@ -8,7 +8,7 @@ class BaseRepository{
     }
 
     async findOne(where, include){
-        return await this.model.findById({where, include});
+        return await this.model.findFirst({where, include});
     }
 
     async paginate(where, {page, limit}){
@@ -24,8 +24,8 @@ class BaseRepository{
     }
 
     async create(data){
-        const newModel = new this.model.create({data});
-        return await newModel.save();
+        const newModel = await this.model.create({data});
+        return newModel;
     }
 
     async update(id, data){

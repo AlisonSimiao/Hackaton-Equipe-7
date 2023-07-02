@@ -2,9 +2,9 @@ const { body } = require("express-validator");
 
 exports.create = [
     body('email')
-    .isEmail().withMessage('Invalid email'),
+    .exists().withMessage('Email é obrigatório')
+    .isEmail().withMessage('Email invalido'),
 
     body('password')
-    .isLength({ min: 5 }).withMessage('A senha deve conter pelo menos 5 caracteres')
-    .matches(/\d/).withMessage('Asenha deve conter pelo menos um número'),
+    .exists().withMessage('Senha é obrigatória')
 ]

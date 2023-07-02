@@ -1,3 +1,4 @@
+const { NotFoundError } = require("../../error");
 const { genderResponseDto } = require("./gender.dto");
 const GenderRepository = require("./gender.repository");
 
@@ -11,10 +12,10 @@ class GenderService{
      * @returns 
      */
     async paginate(page){
-        const [rows, count] = await this.genderRepository.paginate({}, page)
+        const [rows, count] = await this.genderRepository.paginate({id: 1000}, page)
 
-        if(count === 0)
-            throw new Error("nenhum dado encontrado")
+        if(!rows.length)
+            throw new NotFoundError("Nenhum dado encontrado")
         
         return {
             count,

@@ -1,12 +1,16 @@
+const { Create, ErrorResponse } = require("../../response/index.response")
+const LoginService = require("./login.service")
+
 class LoginController{
-    create({body}, res){
+    async create({body}, res){
         try{
             const loginService = new LoginService()
-            const user = loginService.create(body)
-            return res.status(200).json(user)
+            const user = await loginService.create(body)
+            Create(user, res)
         }
         catch(e){
-
+            console.error({e})
+            ErrorResponse(e, res)
         }
     }
 }

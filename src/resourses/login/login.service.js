@@ -1,34 +1,45 @@
-const crypto = require('crypto');
-import * as res from 'express/lib/response';
+const UserRepository = require('../user/user.repository');
+const { NotFoundError } = require('../../error');
+const bcrypt   =require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-class LoginService{
-    async create(body){
-        const {email, password} = body;
-        const user = req.usuario
+class LoginService {
+    constructor() {
+        this.userRepository = new UserRepository()
+    }
+    async create(body) {
+        const { email, password } = body;
 
-        if(email !== user.email)
-            return res.status(401).json({message: "Senha Ou email incorretos"})
+        const user = await this.userRepository.findOne({ email })
+
+        if (!user)
+            throw new NotFoundError("Senha Ou email incorretos")
+
+        const validatePass = await this.verificarSenha(password, user.password)
+
+        if (!validatePass)
+            throw new NotFoundError("Senha Ou email incorretos")
+
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+            expiresIn: 86400,
+
+        })
         
-        const validatePass = verificarSenha(password, user.password)
-
-        if(!validatePass)
-            return res.status(401).json({ message: "Senha Ou email incorretos"})
-        
-
-        const token = await jwt.sign({ id: user.id }, process.env.SECRET)
+        delete user.password
+        delete user.id
 
         return {
             token,
-            user 
+            user
         }
 
     }
-    
 
-    verificarSenha(senha, senhaEncriptada, salt) {
-        const hash = crypto.pbkdf2Sync(senha, salt, 10000, 64, 'sha512').toString('hex');
-        return senhaEncriptada === hash;
-      }
+
+    async verificarSenha(senha, hash) {
+        const isMatch = await bcrypt.compare(senha, hash);
+        return isMatch;
+    }
 }
 
 module.exports = LoginService

@@ -16,9 +16,9 @@ model User {
   name     String
   password String
   adress   String
-  gender   String
   idGender Int
-  age      Gender @relation(fields: [idGender], references: [id])
+  gender   Gender? @relation(fields: [idGender], references: [id])
+  age      Int
 }
 
 model Gender {
