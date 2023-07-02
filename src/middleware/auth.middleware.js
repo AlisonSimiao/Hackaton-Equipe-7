@@ -6,7 +6,7 @@ const UserRepository = require("../resourses/user/user.repository")
 async function auth(req, res, next) {
     
     const userRepository = new UserRepository()
-    console.log(req.headers.authorization);
+    
     try{
         const {
             id
