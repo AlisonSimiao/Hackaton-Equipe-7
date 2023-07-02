@@ -51,3 +51,21 @@ GET /genders
 > genders = arrays com os nomes de cada genero
 > page = pagina atual `pode ser alterado enviando query com mesmo nome`
 > limit = numero maximo de registros por pagina `pode ser alterado enviando query com mesmo nome`
+
+## Points
+
+GET /points
+```
+{
+    value: number
+}
+```
+
+PATCH /points/:pontos
+atualizado os pontos com o valor enviado
+
+```
+{
+    value: number
+}
+```
