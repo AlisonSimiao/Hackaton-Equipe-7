@@ -22,7 +22,8 @@ POST /signup
     name     : String
     password : String
     adress   : String
-    idGender : 1, 2, 3
+    idGender : 1, 2, 3,
+    age: number
 }
 ```
 
