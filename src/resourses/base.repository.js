@@ -32,8 +32,8 @@ class BaseRepository{
         return await this.model.update({where, data});
     }
 
-    async delete(id){
-        return await this.model.findByIdAndDelete(id);
+    async delete(where){
+        return await this.model.delete({where});
     }
 }
 

@@ -1,23 +1,29 @@
 const { NotFoundError, ConflictError } = require("../../error");
-const { DebtCreateDto } = require("./debt.dto");
+const { DebtCreateDto, DebtUpdateDto } = require("./debt.dto");
 const DebtRepository = require("./debt.repository");
 
 class DebtService {
-    constructor(usuario){
+    constructor(usuario) {
         this.usuario = usuario;
         this.debtRepository = new DebtRepository()
     }
 
-    async validateParams(idFinance){
-        const finance = await this.financeRepository.findOne({id: idFinance})
+    async validateParams(idFinance) {
+        const finance = await this.financeRepository.findOne({ id: idFinance })
 
-        if(!finance) 
+        if (!finance)
             throw new NotFoundError("Financeiro não encontrado")
         return finance
     }
 
-    async create(body){
-        
+    async delete(id){
+        await this.validateParams(id)
+
+        return await this.debtRepository.delete({id})
+    }
+    
+    async create(body) {
+
         const debt = new DebtCreateDto(
             body.description,
             body.value,
@@ -29,23 +35,33 @@ class DebtService {
         return await this.debtRepository.create(debt)
     }
 
-    async update(id, body){
-        const debt = await this.debtRepository.findOne({
-            id, 
-            financesId: this.usuario.financesId
-        })
+    async validateParams(id) {
+        const debt = await this.debtRepository.findOne({ id })
 
-        if(!debt) 
+        if (!debt)
             throw new NotFoundError("Divida não encontrada")
-
-        return await this.debtRepository.update(id, body)
+        
+        return debt
     }
 
-    async findOne(id){
-        const debt = await this.debtRepository.findOne({id})
+    async update(id, body) {
+        const {
+        dueDate
+        }  = await this.validateParams(id)
 
-        if(!debt) 
-        throw new NotFoundError("Divida não encontrada")
+        const debt = new DebtUpdateDto(
+            body.description,
+            body.value,
+            new Date(body.dueDate || dueDate),
+            body.status,
+            this.usuario.financesId
+        )
+        
+        return await this.debtRepository.update({id}, debt)
+    }
+
+    async findOne(id) {
+        const debt = await this.validateParams(id)
 
         return debt
     }

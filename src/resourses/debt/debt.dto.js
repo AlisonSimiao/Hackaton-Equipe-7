@@ -14,6 +14,23 @@ class DebtCreateDto {
     }
 }
 
+class DebtUpdateDto {
+    constructor(
+        description,
+        Value,
+        dueDate,
+        status,
+        financeId
+    ) {
+        description && (this.description = description)
+        Value && (this.Value = Value)
+        dueDate && (this.dueDate = dueDate)
+        status && (this.StatusDebts = { connect : {id: status} })
+        financeId && (this.finance = { connect : {id: financeId} })
+    }
+}
+
 module.exports = {
-    DebtCreateDto
+    DebtCreateDto,
+    DebtUpdateDto
 }

@@ -1,5 +1,5 @@
 const { NotFoundError } = require("../../error");
-const { ErrorResponse, Update, FindOne, Create } = require("../../response/index.response");
+const { ErrorResponse, Update, FindOne, Create, Delete } = require("../../response/index.response");
 const DebtRepository = require("./debt.repository");
 const DebtService = require("./debt.service");
 
@@ -8,9 +8,9 @@ class DebtController {
     async delete({ params: {id}, usuario } , res) {
         try {
             const debtService = new DebtService(usuario)
-            const newDebt = await debtService.delete(id)
+            const newDebt = await debtService.delete(Number(id))
             
-            Delete(newDebt, res)
+            Delete(res)
         } catch (error) {
             ErrorResponse(error, res)
         }
@@ -39,10 +39,10 @@ class DebtController {
         }
     }
 
-    async findOne({params: {id}}, res) {
+    async findOne({params: {id}, usuario}, res) {
         try {
-            const debtService = new DebtService()
-            const newDebt = await debtService.findOne(id)
+            const debtService = new DebtService(usuario)
+            const newDebt = await debtService.findOne(Number(id))
             
             FindOne(newDebt, res)
         } catch (error) {
@@ -54,7 +54,7 @@ class DebtController {
         try {
             
             const debtService = new DebtService(usuario)
-            const newDebt = await debtService.update(id, body)
+            const newDebt = await debtService.update(Number(id), body)
             
             Update(newDebt, res)
         } catch (error) {
