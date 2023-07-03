@@ -7,14 +7,14 @@ const { ForbidenError } = require("../error")
 async function auth(req, res, next) {
     
     const userRepository = new UserRepository()
-    
+    console.log(req.url);
     try{
         const {
             id
         } = jwt.verify(req.headers.authorization?.split(' ')[1] || "", process.env.JWT_SECRET)
 
         const user = await userRepository.findOne({id})
-        
+
         if(!user)
             throw new ForbidenError("Não autorizado")
 
@@ -24,7 +24,6 @@ async function auth(req, res, next) {
         next()
     }
     catch(err){
-        console.error(err)
         if(err.name === 'JsonWebTokenError')
             return ErrorResponse({
                 message: 'Token expirado',

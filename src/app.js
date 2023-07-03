@@ -6,9 +6,10 @@ require('dotenv').config()
 
 app.use(cors())
 app.use(express.json());
-app.use(router)
 
-app.get('/', (_, res)=> res.send(require('./../package.json').version))
+app.use('/', require('./router/public.router'))
+
+app.use(router)
 
 
 module.exports = app

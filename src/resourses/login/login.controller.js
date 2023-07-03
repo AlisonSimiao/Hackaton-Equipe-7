@@ -9,7 +9,6 @@ class LoginController{
             Create(user, res)
         }
         catch(e){
-            console.error({e})
             ErrorResponse(e, res)
         }
     }
