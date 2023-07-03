@@ -74,10 +74,10 @@ atualizado os pontos com o valor enviado
 
 Dividas
 
-GET /finances/:idFinance/Debts
-GET /finances/:idFinance/Debts/:idDebt
-POST /finances/:idFinance/Debts
-DELETE /finances/:idFinance/Debts/:idDebt
-PATCH /finances/:idFinance/Debts/:idDebt
+GET /debts
+GET /debts/:id
+POST /debts
+DELETE /debts/:id
+PATCH /debts/:id
 
 statusDividas
