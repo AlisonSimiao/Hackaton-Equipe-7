@@ -7,7 +7,7 @@ const { ForbidenError } = require("../error")
 async function auth(req, res, next) {
     
     const userRepository = new UserRepository()
-    console.log(req.url);
+    
     try{
         const {
             id
@@ -18,7 +18,6 @@ async function auth(req, res, next) {
         if(!user)
             throw new ForbidenError("Não autorizado")
 
-        console.log(user);
         req.usuario = user
 
         next()
