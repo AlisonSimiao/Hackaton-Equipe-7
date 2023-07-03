@@ -16,6 +16,7 @@ class DebtController {
         }
     }
     async create({ body, usuario} , res) {
+        
         try {
             const debtService = new DebtService(usuario)
             const newDebt = await debtService.create(body)

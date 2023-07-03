@@ -3,7 +3,7 @@ const { DebtCreateDto } = require("./debt.dto");
 const DebtRepository = require("./debt.repository");
 
 class DebtService {
-    constructor(){
+    constructor(usuario){
         this.usuario = usuario;
         this.debtRepository = new DebtRepository()
     }
@@ -17,19 +17,23 @@ class DebtService {
     }
 
     async create(body){
+        
         const debt = new DebtCreateDto(
             body.description,
             body.value,
-            body.dueDate,
+            new Date(body.dueDate),
             body.status,
-            this.usuario.financeId
+            this.usuario.financesId
         )
-        
+
         return await this.debtRepository.create(debt)
     }
 
     async update(id, body){
-        const debt = await this.debtRepository.findOne({id})
+        const debt = await this.debtRepository.findOne({
+            id, 
+            financesId: this.usuario.financesId
+        })
 
         if(!debt) 
             throw new NotFoundError("Divida não encontrada")
